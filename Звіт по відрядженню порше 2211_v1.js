@@ -135,7 +135,6 @@ function createTable() {
       {
         code: "dataFood",
         value: moment(index).format("YYYY-MM-DD"),
-        //value: moment(new Date().setDate(index)).format("YYYY-MM-DD"),
         text: null,
       },
       { code: "FoodChoice", value: null, text: null },
@@ -146,6 +145,20 @@ function createTable() {
     type: "table",
     value: table,
   });
+}
+
+function onBeforeRowAddTravelExpense() {
+  if (EdocsApi.getAttributeValue("travelDirection").value == "Україна") {
+    EdocsApi.setAttributeValue({
+      code: "currencyEUR",
+      value: "UAH",
+      text: "Гривня",
+      itemCode: "UAH",
+      itemDictionary: "EdocsGetCurrencies",
+    });
+    EdocsApi.setAttributeValue({ code: "dateRate", value: CurrentDocument.created, text: null });
+    setRate();
+  }
 }
 
 function onChangetravelDirection() {
